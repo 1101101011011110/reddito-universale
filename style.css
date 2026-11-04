@@ -36,6 +36,8 @@
 }
 
 * { box-sizing: border-box; }
+/* "hidden" deve vincere anche sugli elementi con display impostato nel CSS */
+[hidden] { display: none !important; }
 
 body {
   margin: 0;
@@ -185,7 +187,14 @@ input[type="range"] { width: 100%; accent-color: var(--accent); margin: 0; }
 .fasce td { vertical-align: middle; }
 
 /* Raccolta opinioni */
+.full { grid-column: 1 / -1; }
 #feedback { display: grid; gap: 10px; }
+@media (min-width: 960px) {
+  /* A tutta larghezza: voto a sinistra, commento a destra */
+  #feedback { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 24px; align-items: start; }
+  #feedback .voto { grid-row: 1 / span 2; }
+  #feedback .field, #feedback textarea, #feedback .hint, #feedback .feedback-actions { grid-column: 2; }
+}
 .voto { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .voto legend { padding: 0; margin-bottom: 8px; font-weight: 600; }
 .voto-opt { position: relative; }

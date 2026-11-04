@@ -4,7 +4,7 @@
  * (ISTAT, MEF, INPS). Modificare qui per aggiornare il simulatore.
  */
 const PARAMS = {
-  versione: '0.2',
+  versione: '0.3',
   aggiornato: 'novembre 2026',
 
   // Importo pieno mensile del reddito universale (cursore)
