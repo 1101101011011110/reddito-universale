@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulatore reddito universale</title>
+  <meta name="description" content="Calcola quanto riceveresti e quanto pagheresti con un reddito universale in Italia. Tutti i calcoli avvengono nel tuo browser.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <nav class="nav">
+        <a href="index.html" aria-current="page">Simulatore</a>
+        <a href="metodologia.html">Metodologia</a>
+      </nav>
+      <h1>Reddito universale: quanto ricevi, quanto paghi</h1>
+      <p class="lead">Inserisci i dati del tuo nucleo familiare e scopri il saldo tra il reddito universale che riceveresti e le tasse aggiuntive che pagheresti per finanziarlo.</p>
+      <p class="privacy"><span aria-hidden="true">🔒</span> Tutti i calcoli avvengono nel tuo browser: i dati che inserisci non vengono inviati né salvati.</p>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <div class="col">
+      <section class="card" aria-labelledby="h-nucleo">
+        <h2 id="h-nucleo"><span class="step">1</span> Il tuo nucleo</h2>
+        <p class="hint">Per ogni persona indica i redditi <strong>lordi annui</strong>. Adulti e pensionati pagano la tassa aggiuntiva sulla somma dei propri redditi.</p>
+        <div class="presets" role="group" aria-label="Esempi">
+          <span class="muted">Esempi:</span>
+          <button type="button" class="chip" data-esempio="single">Single</button>
+          <button type="button" class="chip" data-esempio="famiglia">Coppia con 2 figli</button>
+          <button type="button" class="chip" data-esempio="pensionato">Pensionato</button>
+          <button type="button" class="chip" data-esempio="alto">Reddito alto</button>
+        </div>
+        <div id="membri" class="members"></div>
+        <div class="add-row">
+          <button type="button" class="btn" data-aggiungi="adulto">+ Adulto</button>
+          <button type="button" class="btn" data-aggiungi="pensionato">+ Pensionato</button>
+          <button type="button" class="btn" data-aggiungi="minore">+ Figlio minorenne</button>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-sussidi">
+        <h2 id="h-sussidi"><span class="step">2</span> Sussidi che ricevi oggi</h2>
+        <p class="hint">Importi <strong>mensili</strong> del nucleo. Queste prestazioni verrebbero sostituite dal reddito universale. Se percepisci l'integrazione al minimo, indica la pensione al netto dell'integrazione.</p>
+        <div id="sussidi" class="grid-redditi"></div>
+      </section>
+
+      <details class="card" id="parametri">
+        <summary><h2><span class="step">3</span> Parametri della proposta</h2></summary>
+        <div class="params">
+          <label class="slider">
+            <span class="slider-head"><span>Quota per i pensionati</span><output id="quotaPensionati-val"></output></span>
+            <input type="range" id="quotaPensionati" min="0" max="100" step="5">
+          </label>
+          <label class="slider">
+            <span class="slider-head"><span>Quota per un neonato</span><output id="quotaNascita-val"></output></span>
+            <input type="range" id="quotaNascita" min="0" max="100" step="5">
+            <span class="hint">Per i minorenni la quota cresce in modo lineare fino al 100% a 18 anni.</span>
+          </label>
+          <div>
+            <h3>Fasce dell'aliquota aggiuntiva</h3>
+            <p class="hint">Le aliquote base valgono per un importo pieno di 600 € e si scalano in proporzione all'importo scelto. Così la soglia di pareggio resta stabile.</p>
+            <div class="table-scroll">
+              <table class="tab fasce">
+                <thead><tr><th scope="col">Da</th><th scope="col">Fino a</th><th scope="col">Aliquota base</th><th scope="col" class="num">Effettiva</th></tr></thead>
+                <tbody id="fasce"></tbody>
+              </table>
+            </div>
+          </div>
+          <button type="button" class="btn" id="ripristina">Ripristina i parametri predefiniti</button>
+        </div>
+      </details>
+    </div>
+
+    <div class="col" aria-live="polite">
+      <section class="card hero" aria-labelledby="h-esito">
+        <label class="slider slider-main">
+          <span class="slider-head"><span>Importo pieno del reddito universale</span><output id="importo-val"></output></span>
+          <input type="range" id="importo">
+        </label>
+        <div id="esito" class="esito">
+          <h2 id="h-esito" class="esito-label"><span id="esito-label"></span></h2>
+          <p class="esito-mese"><span id="esito-mese"></span><span class="unit"> al mese</span></p>
+          <p class="esito-anno" id="esito-anno"></p>
+        </div>
+        <p id="esito-sintesi"></p>
+        <p class="hint" id="pareggio"></p>
+      </section>
+
+      <section class="card" aria-labelledby="h-dettaglio">
+        <h2 id="h-dettaglio">Dettaglio per persona</h2>
+        <div class="table-scroll" id="dettaglio"></div>
+      </section>
+
+      <section class="card" aria-labelledby="h-grafico">
+        <h2 id="h-grafico">Saldo mensile al variare dell'importo</h2>
+        <div id="grafico" class="chart"></div>
+        <p class="hint">Asse orizzontale: importo pieno mensile in euro. Il punto indica l'importo scelto.</p>
+      </section>
+
+      <section class="card" aria-labelledby="h-quadro">
+        <h2 id="h-quadro">Quadro nazionale (stime)</h2>
+        <div class="table-scroll" id="quadro"></div>
+        <p class="hint">Stime approssimative, da verificare con i dati ufficiali. <a href="metodologia.html">Ipotesi e fonti</a></p>
+      </section>
+
+      <section class="card" aria-labelledby="h-opinione">
+        <h2 id="h-opinione">La tua opinione</h2>
+        <form id="feedback" novalidate>
+          <fieldset class="voto">
+            <legend>Sosterresti questa proposta?</legend>
+            <label class="voto-opt"><input type="radio" name="voto" value="Sì" required><span>Sì</span></label>
+            <label class="voto-opt"><input type="radio" name="voto" value="No"><span>No</span></label>
+          </fieldset>
+          <label class="field" for="commento"><span>Commenti (facoltativo)</span></label>
+          <textarea id="commento" name="commento" rows="4" maxlength="2000" placeholder="Cosa ti convince o cosa cambieresti?"></textarea>
+          <p class="hint">Voto e commento vengono inviati a un modulo Google solo quando premi Invia. I dati del simulatore non vengono inviati. Non scrivere nomi o altri dati personali.</p>
+          <div class="feedback-actions">
+            <button type="submit" class="btn btn-primary" id="feedback-invia">Invia</button>
+            <p id="feedback-stato" class="feedback-stato" role="status"></p>
+          </div>
+        </form>
+        <div id="feedback-grazie" class="grazie" hidden>
+          <p><strong>Grazie, la tua risposta è stata inviata.</strong></p>
+          <button type="button" class="btn" id="feedback-ancora">Invia un'altra risposta</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Simulatore indipendente a scopo informativo. Le cifre sono stime e non costituiscono una proposta di legge.</p>
+      <p><span id="versione"></span> · <a href="metodologia.html">Metodologia</a> · <a href="https://github.com/1101101011011110/reddito-universale">Codice sorgente</a></p>
+    </div>
+  </footer>
+
+  <script src="params.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Metodologia – Simulatore reddito universale</title>
+  <meta name="description" content="Ipotesi, formule e fonti del simulatore del reddito universale.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <nav class="nav">
+        <a href="index.html">Simulatore</a>
+        <a href="metodologia.html" aria-current="page">Metodologia</a>
+      </nav>
+      <h1>Metodologia</h1>
+      <p class="lead">Ipotesi, formule e fonti usate dal simulatore. Tutte le cifre sono stime approssimative, da verificare con i dati ufficiali di ISTAT, MEF e INPS.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <article class="card prose">
+      <h2>La proposta in breve</h2>
+      <ul>
+        <li>Ogni residente riceve ogni mese un reddito universale, senza condizioni.</li>
+        <li>Le <strong>pensioni di anzianità e di vecchiaia non vengono toccate</strong>, perché sono un diritto acquisito.</li>
+        <li>Il reddito universale sostituisce solo le prestazioni assistenziali: assegno unico, assegno di inclusione, assegno sociale e integrazioni al minimo, per circa 40-50 miliardi l'anno.</li>
+        <li>È finanziato con una tassa aggiuntiva a fasce sui redditi delle persone fisiche, pensionati compresi. Non ci sono nuove tasse sulle imprese.</li>
+        <li><strong>Approccio graduale:</strong> si può partire da un importo basso (es. 100 € al mese) e aumentarlo nel tempo. Le aliquote crescono in proporzione, quindi la soglia di pareggio resta circa la stessa: cambia solo la grandezza dei saldi.</li>
+      </ul>
+
+      <h2>Importi</h2>
+      <p>Si sceglie un <strong>importo pieno</strong> mensile, da 100 a 1.000 € (predefinito 600 €). Ognuno riceve una quota di questo importo:</p>
+      <ul>
+        <li><strong>Adulti:</strong> 100% dell'importo pieno.</li>
+        <li><strong>Pensionati:</strong> 50% (modificabile), perché ricevono già la pensione.</li>
+        <li><strong>Minorenni:</strong> una quota che cresce in modo lineare con l'età, dal 25% alla nascita al 100% a 18 anni. Con 600 € si va da 150 € per un neonato a circa 575 € a 17 anni.</li>
+      </ul>
+
+      <h2>Finanziamento</h2>
+      <p>La tassa aggiuntiva si applica alla somma dei redditi lordi annui di ogni persona: lavoro dipendente, pensione, lavoro autonomo ordinario, regime forfettario, affitti con cedolare secca e rendite finanziarie. Funziona a scaglioni, come l'IRPEF: ogni aliquota si applica solo alla parte di reddito che cade nella sua fascia.</p>
+      <p>Le aliquote base sono riferite a un importo pieno di 600 €:</p>
+      <ul>
+        <li>15% fino a 15.000 €</li>
+        <li>25% da 15.000 a 50.000 €</li>
+        <li>35% oltre 50.000 €</li>
+      </ul>
+      <p>Per un importo diverso le aliquote si moltiplicano per <code>importo pieno / 600</code>. Con 300 € diventano 7,5%, 12,5% e 17,5%. Le aliquote non sono ancora tarate sul gettito necessario: servono a mostrare l'ordine di grandezza.</p>
+
+      <h2>Come si calcola il saldo</h2>
+      <div class="formula">
+        Entrate = Σ (importo pieno × quota della persona × 12)<br>
+        Uscite  = Σ tassa aggiuntiva a fasce sui redditi di ogni persona + sussidi persi × 12<br>
+        Saldo   = Entrate − Uscite
+      </div>
+      <p>Il saldo viene mostrato all'anno e al mese, per persona e per nucleo. Il grafico ricalcola il saldo mensile del nucleo per ogni importo pieno da 100 a 1.000 €.</p>
+
+      <h2>Quadro nazionale</h2>
+      <ul>
+        <li>Adulti in età da lavoro: circa 35 milioni.</li>
+        <li>Minorenni: circa 9 milioni.</li>
+        <li>Pensionati: circa 14 milioni.</li>
+        <li>Assistenza sostituita: circa 45 miliardi l'anno.</li>
+        <li>Base imponibile allargata: circa 1.150 miliardi. Comprende i redditi IRPEF (circa 950), i forfettari (circa 50), gli affitti con cedolare secca (circa 50) e le rendite finanziarie (circa 90).</li>
+      </ul>
+      <p>Con 600 € il costo lordo è di circa 340 miliardi e il costo netto di circa 295. Serve quindi un'aliquota aggiuntiva media intorno al 25-26% della base imponibile.</p>
+
+      <h2>Limiti del modello</h2>
+      <ul>
+        <li>Non tiene conto delle reazioni dei comportamenti: offerta di lavoro, evasione, trasferimento di capitali all'estero, inflazione.</li>
+        <li>Non simula l'IRPEF attuale, le detrazioni o i contributi: calcola solo la differenza introdotta dalla proposta.</li>
+        <li>Non verifica che il gettito delle aliquote scelte copra il costo netto, perché servirebbe la distribuzione completa dei redditi.</li>
+        <li>I sussidi sono inseriti a livello di nucleo e si considerano persi per intero.</li>
+      </ul>
+
+      <h2>Fonti da consultare</h2>
+      <ul>
+        <li><a href="https://demo.istat.it/">ISTAT – Popolazione residente per età</a></li>
+        <li><a href="https://www1.finanze.gov.it/finanze/analisi_stat/">MEF – Statistiche sulle dichiarazioni fiscali</a></li>
+        <li><a href="https://www.inps.it/it/it/dati-e-bilanci.html">INPS – Dati e bilanci</a></li>
+      </ul>
+
+      <h2>Privacy</h2>
+      <p>Il simulatore è un sito statico. Tutti i calcoli avvengono nel tuo browser: i dati che inserisci nel simulatore non vengono inviati a un server, salvati o tracciati.</p>
+      <p>Il riquadro "La tua opinione" è l'unica parte che invia dati, e solo quando premi Invia. Partono soltanto il voto (Sì/No) e il commento, verso un modulo Google, e finiscono in un foglio consultabile dagli autori. I commenti non vengono pubblicati sul sito. Come ogni servizio web, Google riceve anche l'indirizzo IP del tuo dispositivo. Il voto è anonimo e non c'è controllo sui voti multipli, quindi i risultati sono indicativi e non hanno valore statistico.</p>
+      <p> Il <a href="https://github.com/1101101011011110/reddito-universale">codice sorgente</a> è pubblico e i parametri si trovano nel file <code>params.js</code>.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><p><a href="index.html">Torna al simulatore</a></p></div>
+  </footer>
+</body>
+</html>
