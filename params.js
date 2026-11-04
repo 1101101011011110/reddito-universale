@@ -8,7 +8,7 @@ const PARAMS = {
   aggiornato: 'novembre 2026',
 
   // Importo pieno mensile del reddito universale (cursore)
-  importoPieno: { default: 600, min: 100, max: 1000, step: 10 },
+  importoPieno: { default: 500, min: 100, max: 1000, step: 10 },
 
   // Le aliquote aggiuntive qui sotto valgono per questo importo pieno.
   // Per importi diversi vengono scalate in proporzione (es. 300 € -> metà aliquote).

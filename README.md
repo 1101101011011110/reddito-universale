@@ -12,6 +12,7 @@ Calcola, per un nucleo familiare, il saldo tra il reddito universale che ricever
 | `style.css` | Grafica, con tema chiaro e scuro |
 | `app.js` | Logica di calcolo e interfaccia |
 | `params.js` | Parametri: importi, quote, fasce, quadro nazionale |
+| `ricadute.html` | Possibili effetti sulla società ed evidenze delle sperimentazioni |
 | `metodologia.html` | Ipotesi, formule e fonti |
 
 ## Provarlo in locale

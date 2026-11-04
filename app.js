@@ -266,54 +266,10 @@
       '<tr><th scope="row">Nucleo<span class="sub">al mese</span></th><td></td><td class="num">' + eur(r.entrate / 12) + '</td><td class="num">−' + eur((r.tasse + r.sussidiPersi) / 12) + '</td><td class="num ' + segno(saldo) + '">' + eurSegno(mese) + '</td></tr>' +
       '</tfoot></table>';
 
-    renderGrafico();
     renderQuadro();
   }
 
   function segno(v) { v = Math.round(v); return v > 0 ? 'pos' : v < 0 ? 'neg' : ''; }
-
-  function renderGrafico() {
-    var p = stato.params, ip = P.importoPieno;
-    var punti = [];
-    for (var x = ip.min; x <= ip.max; x += ip.step) {
-      var q = Object.assign({}, p, { importo: x });
-      punti.push([x, calcola(stato, q).saldo / 12]);
-    }
-    var ys = punti.map(function (pt) { return pt[1]; });
-    var yMin = Math.min(0, Math.min.apply(null, ys)), yMax = Math.max(0, Math.max.apply(null, ys));
-    if (yMax - yMin < 1) { yMax += 50; yMin -= 50; }
-    var pad = (yMax - yMin) * 0.08; yMin -= pad; yMax += pad;
-
-    var W = 640, H = 260, L = 64, R = 16, T = 14, B = 34;
-    var sx = function (v) { return L + (v - ip.min) / (ip.max - ip.min) * (W - L - R); };
-    var sy = function (v) { return T + (yMax - v) / (yMax - yMin) * (H - T - B); };
-
-    var tickX = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
-    var passo = passoTondo((yMax - yMin) / 5);
-    var tickY = [];
-    for (var t = Math.ceil(yMin / passo) * passo; t <= yMax; t += passo) tickY.push(t);
-
-    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Saldo mensile del nucleo al variare dell\'importo pieno">';
-    tickY.forEach(function (t) {
-      svg += '<line class="grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + sy(t) + '" y2="' + sy(t) + '"/>' +
-        '<text class="tick" x="' + (L - 8) + '" y="' + (sy(t) + 4) + '" text-anchor="end">' + eurSegno(t) + '</text>';
-    });
-    tickX.forEach(function (t) {
-      svg += '<text class="tick" x="' + sx(t) + '" y="' + (H - 12) + '" text-anchor="middle">' + t + '</text>';
-    });
-    svg += '<line class="zero" x1="' + L + '" x2="' + (W - R) + '" y1="' + sy(0) + '" y2="' + sy(0) + '"/>';
-    svg += '<polyline class="line" points="' + punti.map(function (pt) { return sx(pt[0]).toFixed(1) + ',' + sy(pt[1]).toFixed(1); }).join(' ') + '"/>';
-    var cur = calcola(stato).saldo / 12;
-    svg += '<line class="cursor" x1="' + sx(p.importo) + '" x2="' + sx(p.importo) + '" y1="' + T + '" y2="' + (H - B) + '"/>';
-    svg += '<circle class="dot ' + segno(cur) + '" cx="' + sx(p.importo) + '" cy="' + sy(cur) + '" r="5"/>';
-    svg += '</svg>';
-    $('grafico').innerHTML = svg;
-  }
-
-  function passoTondo(v) {
-    var e = Math.pow(10, Math.floor(Math.log10(v))), f = v / e;
-    return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * e;
-  }
 
   function renderQuadro() {
     var p = stato.params, q = quadroNazionale(p), M = P.macro;
