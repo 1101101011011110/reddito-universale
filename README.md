@@ -26,3 +26,5 @@ Modifica `params.js`. Le aliquote delle fasce valgono per `importoRiferimento` (
 ## Pubblicazione
 
 Il sito è pubblicato con GitHub Pages dal branch `main`, cartella `/ (root)`. Ogni push su `main` aggiorna il sito.
+
+GitHub Pages fa tenere i file in cache ai browser per circa 10 minuti. Quando modifichi `app.js`, `params.js` o `style.css`, aumenta il numero `?v=` nei link delle pagine HTML e `versione` in `params.js`. Così i visitatori scaricano subito i file nuovi.
